@@ -6,8 +6,8 @@ function Header(props){
 
     function HandleToDoInput(event){
         if(event.key === 'Enter'){
-            console.log(event.target.value);
             props.onAddItem(event.target.value);
+            
         }
     }
     
@@ -15,7 +15,7 @@ function Header(props){
         <header className="header">
         <h1>{props.appTitle}</h1>
         <input className="new-todo"
-            placeholder="What needs to be done?"
+            placeholder={props.text}
             autoFocus onKeyUp={HandleToDoInput}/>
         </header>
     );
