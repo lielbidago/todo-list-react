@@ -1,12 +1,11 @@
 
 import './App.css';
-
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import {useEffect, useState} from "react";
 import {ToDoLst} from "./components/Main";
-// import React from "react";
+
 
 
 
@@ -15,7 +14,7 @@ function App() {
   const [ Todos, setTodos ] = useState([]);
   const [ noneCompletedItemsCount, setNoneCompletedItemsCount ] = useState(0);
   
-  const appTitle = 'Todo List';
+  const appTitle = 'my todos';
 
   useEffect(() => {
     const uncompleted = Todos.filter( todo => !todo.completed );
@@ -44,25 +43,21 @@ function App() {
 
   const markAsCompleted = (task) => {
     
-    const newTodos = Todos.map( (todo) => {
-      if(todo.id === task.id){
-        todo.completed = !todo.completed;
-        return todo;
-        }else{
-          return todo;
-        }});
+    // const newTodos = Todos.map( (todo) => {
+    //   if(todo.id === task.id){
+    //     todo.completed = !todo.completed;
+    //     return todo;
+    //     }else{
+    //       return todo;
+    //     }});
     
+    const newTodos = Todos.map( (todo) => (task.id===todo.id? {...todo,completed:(!todo.completed)} : todo));
     setTodos(newTodos);
   }
 
   
   const clearAllCompletedItems = () => {
     const newTodos = Todos.filter( currentTodo => !currentTodo.completed );
-    // const li_items_arr = Array.from(document.getElementsByClassName('completed'));
-    // li_items_arr.forEach(li => {li.setAttribute('class','');});
-    // const li_input_check_arr = Array.from(document.getElementsByClassName('toggle'));
-    // li_input_check_arr.forEach(input => {input.checked = false});
-
     setTodos(newTodos);
   }
 
@@ -90,14 +85,8 @@ function App() {
       <Header
        appTitle={appTitle} onAddItem={AddTodo} 
        text="What needs to be done?">
-
        </Header>
 
-      {/* <Main 
-      taskLst={Todos} 
-      onRemoveItem={removeTodo}
-      onMarkAsCompleted={markAsCompleted} 
-      onToggleAll={toggleAllItems}> */}
       <Main onToggleAll={toggleAllItems}>
         <ToDoLst tasks_array={Todos} 
             onRemoveItem={removeTodo}
@@ -106,7 +95,8 @@ function App() {
       </Main>
 
       <Footer itemLeftCount={noneCompletedItemsCount}
-            onClearCompleted={clearAllCompletedItems}>
+            onClearCompleted={clearAllCompletedItems}
+            TodosCount = {Todos.length}>
 
             </Footer>
       </section>
