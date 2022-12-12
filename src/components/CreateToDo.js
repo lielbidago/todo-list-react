@@ -1,20 +1,24 @@
 
+import {ListContext} from "../providers/list_context";
+import {useContext} from "react";
 export default ToDo;
 
 
-function ToDo({task,RemoveItem,MarkAsCompleted,RenameTask, RenameTaskInput}){
 
+function ToDo({task}){
+
+    const {removeTodo, markAsCompleted,renameTask, renameTaskInput} = useContext(ListContext);
 
     function HandleRenameInput(event){
         if(event.key === 'Enter'){
             // console.log("@@@",event.target.parentNode.parentNode);
             task.editing = false;
-            RenameTask(task,event.target.value);
+            renameTask(task,event.target.value);
         }
     }
 
     function handleDoubleClick(){
-        RenameTaskInput(task);
+        renameTaskInput(task);
     }
     
     return (
@@ -22,9 +26,9 @@ function ToDo({task,RemoveItem,MarkAsCompleted,RenameTask, RenameTaskInput}){
         key={task.id}>
             <div className="view">
                 <input className="toggle"
-                    type="checkbox" onClick={()=>MarkAsCompleted(task)} checked={task.completed}/>
+                    type="checkbox" onClick={()=>markAsCompleted(task)} checked={task.completed}/>
                 <label onDoubleClick={handleDoubleClick}>{task.title}</label>
-                <button className="destroy" onClick={()=> RemoveItem(task)}></button> 
+                <button className="destroy" onClick={()=> removeTodo(task)}></button> 
             </div>
             <input className="edit" onKeyUp={(e)=>HandleRenameInput(e)} />
         </li>

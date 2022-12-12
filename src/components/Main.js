@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ToDo from "./CreateToDo";
+import {ListContext} from "../providers/list_context";
 export default Main;
 
 
-function Main(props){
+function Main({children}){
     
+    const {toggleAllItems} = useContext(ListContext);
+
     function handleToggleAll(event) {
-        props.onToggleAll(event.target.checked)
+        toggleAllItems(event.target.checked);
     }
 
     return (
@@ -14,23 +17,22 @@ function Main(props){
             <input className="toggle-all"
             onChange={handleToggleAll}
             type="checkbox" />
-            { props.children }
+            { children }
 
     </section>
 );
 }
 
 
-export function ToDoLst({tasks_array,onRemoveItem, onmarkAsCompleted,onRenameTask, onRenameTaskInput}){
+export function ToDoLst(){
+
+    const {Todos} = useContext(ListContext);
 
     return (<ul className="todo-list">
                 {
-                    tasks_array.map(task => 
+                    Todos.map(task => 
                         <ToDo task={task} 
-                        RemoveItem={onRemoveItem}
-                        MarkAsCompleted={onmarkAsCompleted}
-                        RenameTask={onRenameTask}
-                        RenameTaskInput={onRenameTaskInput}></ToDo>)
+                         key={task.id}></ToDo>)
                 }
             </ul>
             );
